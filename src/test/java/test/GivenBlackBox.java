@@ -426,6 +426,27 @@ public class GivenBlackBox {
         assertEquals(threeBearsExpected, ans);
     }
     
+//////////////////////////////////////  MULTIPLE BEARS CASES /////////////////////////////////////
+
+    /**
+     * This test creates a workshop and addes 100 base bears each for $30 to the shop.
+     * The when the calculate savings method it called it should return $300 because bears are
+     * buy 2 get the third (cheapest one) free
+     */
+    @Test
+    public void thrityBaseBears() {
+    	System.out.println("Running - oneHundredBaseBears");
+        BearWorkshop bears = null;
+        try { bears = createBearWorkshop("AZ");} catch (Exception e){}
+        for(int i = 0; i < 30; i++) {
+            Bear customBear = new Bear(Stuffing.stuffing.BASE);
+            bears.addBear(customBear);
+        }
+        Double bearsExpected = 300.0;
+        Double ans = bears.calculateSavings();
+        assertEquals(bearsExpected, ans);
+    }
+    
 
 ///////////////////////////////////////  FINAL OUTPUT CASE  //////////////////////////////////
     @Test
