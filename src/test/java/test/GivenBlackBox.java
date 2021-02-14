@@ -435,7 +435,7 @@ public class GivenBlackBox {
      */
     @Test
     public void thrityBaseBears() {
-    	System.out.println("Running - oneHundredBaseBears");
+    	System.out.println("Running - thrityBaseBears");
         BearWorkshop bears = null;
         try { bears = createBearWorkshop("AZ");} catch (Exception e){}
         for(int i = 0; i < 30; i++) {
