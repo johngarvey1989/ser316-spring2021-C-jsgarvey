@@ -162,6 +162,7 @@ public class BearWorkshop implements BearWorkshopInterface{
         }
         double temp = 0;
         Double Cost = Double.valueOf(0.00);
+        
 
         for (Bear bear: this.BearCart) {
             temp += getCost(bear);
