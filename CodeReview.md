@@ -2,7 +2,7 @@ Reviewer : John Garvey
 GH Repo: ser316-spring2021-C-jsgarvey
 
 | ID#  | Location  | Problem Description  | Category  | Severity  |
-|---|---|---|---|--|--|
+|---|---|---|---|--|
 | 1  | BearWorkshop line 165  | Duplicate code – there seems to be two variables for and ways to get the rawcost of the total bears in cart. One creates a Double object and computes the rawcost but the variable is never again used.  | CS | LOW |
 | 2  | Bear.java line 41 | Method Banner – in the bear class the method addNoise does not have a method banner  | CG | LOW |
 | 3  | BearWorkshop.java line 158 | Functional defect -the function checkout check if the customer is less than or equal to 13 years old. The specification says that a child must be 13 years of age in order to buy a  bear. The way it is set now the customer must be 14 in order to buy a bear  | FS | BR |
