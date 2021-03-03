@@ -10,6 +10,7 @@ public class Bear implements Comparable<Bear>{
     public LinkedList<NoiseMaker> noisemakers; // accessory
     public LinkedList<Clothing> clothing; // accessory
     double price;
+    // Add new variablet to store the raw price of bear
     double rawPrice;
     // bear has a shell (requ)
     // bear has stuffing (req)

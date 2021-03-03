@@ -41,7 +41,7 @@ public class BearWorkshop implements BearWorkshopInterface{
         int numFree = numCloths / 3;
         int numNonFreeCloths = numCloths - numFree;
         ArrayList<Clothing> freeClothes = new ArrayList<>();
-        
+        // Variable to store the bear cost with discounts
         double bearPrice = 0;
 
         for (int i = 0; i < bear.clothing.size(); i++) {
@@ -52,7 +52,7 @@ public class BearWorkshop implements BearWorkshopInterface{
             	bearPrice += clothes.price;
             }
         }
-        
+       // Add variable to store total number of accessories
         int accessCount = numNonFreeCloths;
 
         for (NoiseMaker noise: bear.noisemakers) {
@@ -65,9 +65,11 @@ public class BearWorkshop implements BearWorkshopInterface{
         }
 
         bearPrice += bear.stuff.price;
+        // Change to add to the price
         bearPrice += bear.casing.priceModifier;
-        
+        // if total number of accessories is greater or equal to 10 give 10% discount
         if(accessCount >= 10) { bearPrice = bearPrice - (bearPrice * 0.1); }
+        // Now set bear price with discounts
         bear.price = bearPrice;
         
         return bearPrice;
@@ -76,6 +78,8 @@ public class BearWorkshop implements BearWorkshopInterface{
     // Function to get the raw cost of a bear without any discounts
    // TODO: test me and fix me in assignment 3
     public double getRawCost(Bear bear) {
+    	
+    	// Variable to store and return raw cost of bear
         double bearPrice = 0;
         for (int i = 0; i < bear.clothing.size(); i++) {
             Clothing clothes = bear.clothing.get(i);
@@ -92,7 +96,9 @@ public class BearWorkshop implements BearWorkshopInterface{
         }
 
         bearPrice += bear.stuff.price;
+        // Change to add to the price
         bearPrice += bear.casing.priceModifier;
+        // Now set new Bear attribute of rawPrice to raw price
         bear.rawPrice = bearPrice;
         
         return bearPrice;
