@@ -15,7 +15,8 @@ public class Main {
         workshop.addBear(bear2);
         workshop.addBear(bear3);
         workshop.addBear(bear1);
-        
+
+        System.out.println(workshop.getCost(bear1));
         System.out.println(bear1.price);
         
         System.out.println(workshop.getCost(bear2));
@@ -23,17 +24,56 @@ public class Main {
         
         System.out.println(workshop.getCost(bear3));
         System.out.println(bear3.price);
+
+        
+        System.out.println("Bear with No clothing object");
+        System.out.println(workshop.getRawCost(bear1));
+        System.out.println(workshop.getCost(bear1));
         
         bear1.clothing.add(new Clothing());
-        
-        System.out.println("Bear with NO clothing object");
-        System.out.println(bear1.price);
-        
         System.out.println("Bear with one clothing object");
         System.out.println(workshop.getRawCost(bear1));
+        System.out.println(workshop.getCost(bear1));
         
         bear1.clothing.add(new Clothing(5, "Cool sunglasses"));
         System.out.println("Bear with two clothing object");
         System.out.println(workshop.getRawCost(bear1));
+        System.out.println(workshop.getCost(bear1));
+        
+        
+        bear1.clothing.add(new Clothing(5, "Sun hat"));
+        bear1.clothing.add(new Clothing(5, "Sun hat"));
+        bear1.clothing.add(new Clothing(5, "Sun hat"));
+        bear1.clothing.add(new Clothing(5, "Sun hat"));
+        bear1.clothing.add(new Clothing(5, "Sun hat"));
+        bear1.clothing.add(new Clothing(5, "Sun hat"));
+        bear1.clothing.add(new Clothing(5, "Sun hat"));
+        bear1.clothing.add(new Clothing(5, "Sun hat"));
+        bear1.clothing.add(new Clothing(5, "Sun hat"));
+        bear1.clothing.add(new Clothing(5, "Sun hat"));
+        bear1.clothing.add(new Clothing(5, "Sun hat"));
+        System.out.println("Bear with 13 clothing object");
+        System.out.println(workshop.getRawCost(bear1));
+        System.out.println(workshop.getCost(bear1));
+        
+        bear1.clothing.add(new Clothing(5, "Sun hat"));
+        System.out.println("Bear with 14 clothing object at 10% off");
+        System.out.println(workshop.getRawCost(bear1));
+        System.out.println(workshop.getCost(bear1));
+        System.out.println(workshop.calculateSavings());
+   
+        BearWorkshop bears = new BearWorkshop();
+    
+        Bear customBear = new Bear(Stuffing.stuffing.BASE);
+        bears.addBear(customBear);
+	    customBear.clothing.add(new Clothing(1, "Hat"));
+	    customBear.clothing.add(new Clothing(2, "Sunglasses"));
+	    customBear.clothing.add(new Clothing(3, "Shoes"));
+	    customBear.clothing.add(new Clothing(4, "Shirt"));
+	    customBear.clothing.add(new Clothing(5, "Pants"));
+	    customBear.clothing.add(new Clothing(6, "Gloves"));
+        Double bearsExpected = 3.0;
+        Double ans = bears.calculateSavings();
+        
     }
 }

@@ -1,86 +1,25 @@
 package test;
+
 import main.java.*;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
-
-import java.lang.reflect.Constructor;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
-//import main.java.BearWorkshop;
-
 import static org.junit.Assert.*;
 
-/***
- * This class provides a framework to implement black box tests for various
- * implementations of the BearWorkshop Class. The BearWorkshop is having a
- * blowout sale and is offering the following savings.
+import org.junit.After;
+import org.junit.Before;
+
+import org.junit.Test;
+
+/**
+ * @author johng
  *
- * Bears are Buy 2 bears, get 1 free. It is 10% off the cost of a bear when a
- * single bear has 10 or more accessories (Note that embroidery, stuffing, and
- * the material used for the bear casing is not considered an accessory).
- * Additionally, clothes are buy 2, get one free on each bear. Only non free clothes count 
- * towards the 10 accessories or more savings part. 
  */
-@RunWith(Parameterized.class)
-public class GivenBlackBox {
-    private Class<BearWorkshop> classUnderTest;
-
-    @SuppressWarnings("unchecked")
-    public GivenBlackBox(Object classUnderTest) {
-        this.classUnderTest = (Class<BearWorkshop>) classUnderTest;
-    }
-
-    @Parameters
-    public static Collection<Object[]> courseGradesUnderTest() {
-        Object[][] classes = {
-                {BearWorkshop1.class},
-                {BearWorkshop2.class},
-                {BearWorkshop3.class},
-                {BearWorkshop4.class},
-                {BearWorkshop5.class}
-
-        };
-        return Arrays.asList(classes);
-    }
-
-    private BearWorkshop createBearWorkshop(String name) throws Exception {
-        Constructor<BearWorkshop> constructor = classUnderTest.getConstructor(String.class);
-        return constructor.newInstance(name);
-    }
-
-    BearWorkshop oneBear;
-    Double oneBearExpected;
-
-    BearWorkshop threeBears;
-    Double threeBearsExpected;
-
-    BearWorkshop twoBears;
-    Double twoBearsExpected;
-
-    @Before
+public class CalculateSavingsTest {
+    
+	BearWorkshop bears; 
+	
+	@Before
     public void setUp() throws Exception {
-
-        // One default Bear (casing base = $30, no saving expected)
-        oneBear = createBearWorkshop("AZ");
-        oneBear.addBear(new Bear());
-        oneBearExpected = 0.00; // no savings
-        
-        // Three Bears expected to not pay for cheapest one
-        threeBears = createBearWorkshop("AZ");
-        threeBears.addBear(new Bear(Stuffing.stuffing.BASE));
-        threeBears.addBear(new Bear(Stuffing.stuffing.DOWN));
-        threeBears.addBear(new Bear(Stuffing.stuffing.FOAM));
-        threeBearsExpected = 30.00;
-        
-        
     }
+    
 
     @After
     public void tearDown() throws Exception {
@@ -94,8 +33,7 @@ public class GivenBlackBox {
     @Test
     public void noBearsNoSavings() {
     	System.out.println("Running - noBearsNoSavings");
-    	BearWorkshop bears = null;
-    	try { bears = createBearWorkshop("AZ"); } catch (Exception e){}
+		bears = new BearWorkshop();
     	Double ans = bears.calculateSavings();
     	assertEquals( 0.0, ans, 0);
     }
@@ -109,8 +47,10 @@ public class GivenBlackBox {
     @Test
     public void oneBaseBearNoSavings() {
     	System.out.println("Running - oneBaseBearNoSavings");
-        Double ans = oneBear.calculateSavings();
-        assertEquals(oneBearExpected, ans);
+		bears = new BearWorkshop();
+    	bears.addBear(new Bear());
+        Double ans = bears.calculateSavings();
+        assertEquals(Double.valueOf(0.0), ans);
     }
     
     /**
@@ -120,8 +60,7 @@ public class GivenBlackBox {
     @Test
     public void oneFoamNoSavings() {
     	System.out.println("Running - oneFoamNoSavings");
-    	BearWorkshop bears = null;
-    	try { bears = createBearWorkshop("AZ"); } catch (Exception e){}
+		bears = new BearWorkshop();
     	bears.addBear(new Bear(Stuffing.stuffing.FOAM));
     	Double ans = bears.calculateSavings();
     	assertEquals( Double.valueOf(0.0), ans);
@@ -135,8 +74,7 @@ public class GivenBlackBox {
     @Test
     public void oneBaseBearEmbroideryNoSavings() {
     	System.out.println("Running - oneBaseBearEmbroideryNoSavings");
-    	BearWorkshop bears = null;
-    	try { bears = createBearWorkshop("AZ"); } catch (Exception e){}
+		bears = new BearWorkshop();
     	Bear baseInkBear = new Bear();
     	baseInkBear.ink = new Embroidery("12345");
     	bears.addBear(baseInkBear);
@@ -152,8 +90,7 @@ public class GivenBlackBox {
     @Test 
     public void oneBaseBearDefaultNoiseMakerNoSavings(){
     	System.out.println("Running - oneBaseBearDefaultNoiseMakerNoSavings");
-    	BearWorkshop bears = null;
-    	try { bears = createBearWorkshop("AZ"); } catch (Exception e){}
+		bears = new BearWorkshop();
     	Bear baseDefNoiseMakerBear = new Bear();
     	baseDefNoiseMakerBear.addNoise(new NoiseMaker());
     	bears.addBear(baseDefNoiseMakerBear);
@@ -169,8 +106,7 @@ public class GivenBlackBox {
     @Test
     public void oneBaseBearCustomNoiseMakerNoSavings() {
     	System.out.println("Running - oneBaseBearCustomNoiseMakerNoSavings");
-    	BearWorkshop bears = null;
-    	try { bears = createBearWorkshop("AZ"); } catch (Exception e){}
+		bears = new BearWorkshop();
     	Bear baseNoiseMakerBear = new Bear();
     	baseNoiseMakerBear.addNoise(new NoiseMaker("Noise Maker Tester", "Testing 123", 
     												NoiseMaker.Location.RIGHT_HAND));
@@ -187,8 +123,7 @@ public class GivenBlackBox {
     @Test
     public void oneBaseBearOnePieceDefaultClothingNoSavings() {
     	System.out.println("Running - oneBaseBearOnePieceDefaultClothinNoSavings");
-    	BearWorkshop bears = null;
-    	try { bears = createBearWorkshop("AZ"); } catch (Exception e){}
+		bears = new BearWorkshop();
     	Bear baseDefClothingBear = new Bear();
     	baseDefClothingBear.clothing.add(new Clothing());
     	bears.addBear(baseDefClothingBear);
@@ -204,8 +139,7 @@ public class GivenBlackBox {
     @Test
     public void oneBaseBearOnePieceCustomClothingNoSavings() {
     	System.out.println("Running - oneBaseBearOnePieceCustomClothingNoSavings");
-    	BearWorkshop bears = null;
-    	try { bears = createBearWorkshop("AZ"); } catch (Exception e){}
+		bears = new BearWorkshop();
     	Bear baseCustomClothingBear = new Bear();
     	baseCustomClothingBear.clothing.add(new Clothing(10.0, "Hoodie"));
     	bears.addBear(baseCustomClothingBear);
@@ -221,8 +155,7 @@ public class GivenBlackBox {
     @Test
     public void oneBaseBear2PiecesClothingNoSavings() {
     	System.out.println("Running - oneBaseBear2PiecesClothingNoSavings");
-    	BearWorkshop bears = null;
-    	try { bears = createBearWorkshop("AZ"); } catch (Exception e){}
+		bears = new BearWorkshop();
     	Bear baseTwoClothingBear = new Bear();
     	baseTwoClothingBear.clothing.add(new Clothing());
     	baseTwoClothingBear.clothing.add(new Clothing(10.0, "Hoodie"));
@@ -239,8 +172,7 @@ public class GivenBlackBox {
     @Test
     public void oneBaseBear3ClothingsExpectSaving() {
     	System.out.println("Running - oneBaseBear3ClothingsExpectSaving");
-        BearWorkshop bears = null;
-        try { bears = createBearWorkshop("AZ");} catch (Exception e){}
+		bears = new BearWorkshop();
         Bear customBear = new Bear(Stuffing.stuffing.BASE);
         bears.addBear(customBear);
 	    customBear.clothing.add(new Clothing(4, "Hat"));
@@ -259,8 +191,7 @@ public class GivenBlackBox {
     @Test
     public void oneBaseBear3DifferentClothingsExpectSaving() {
     	System.out.println("Running - oneBaseBear3DifferentClothingsExpectSaving");
-        BearWorkshop bears = null;
-        try { bears = createBearWorkshop("AZ");} catch (Exception e){}
+		bears = new BearWorkshop();
         Bear customBear = new Bear(Stuffing.stuffing.BASE);
         bears.addBear(customBear);
 	    customBear.clothing.add(new Clothing(4, "Hat"));
@@ -279,8 +210,7 @@ public class GivenBlackBox {
     @Test
     public void oneBaseBear6DifferentClothingsExpectSaving() {
     	System.out.println("Running - oneBaseBear6DifferentClothingsExpectSaving");
-        BearWorkshop bears = null;
-        try { bears = createBearWorkshop("AZ");} catch (Exception e){}
+		bears = new BearWorkshop();
         Bear customBear = new Bear(Stuffing.stuffing.BASE);
         bears.addBear(customBear);
 	    customBear.clothing.add(new Clothing(1, "Hat"));
@@ -291,7 +221,7 @@ public class GivenBlackBox {
 	    customBear.clothing.add(new Clothing(6, "Gloves"));
         Double bearsExpected = 3.0;
         Double ans = bears.calculateSavings();
-        assertEquals(bearsExpected, ans, 0.005);
+        assertEquals(bearsExpected, ans);
     }
     
     /**
@@ -302,8 +232,7 @@ public class GivenBlackBox {
     @Test
     public void oneBaseBear10AccessoriesNoClothingExpectSavings() {
     	System.out.println("Running - oneBaseBear10AccessoriesNoClothingExpectSavings");
-        BearWorkshop bears = null;
-        try { bears = createBearWorkshop("AZ");} catch (Exception e){}
+		bears = new BearWorkshop();
         Bear customBear = new Bear(Stuffing.stuffing.BASE);
         bears.addBear(customBear);
         customBear.noisemakers.add(new NoiseMaker());
@@ -316,7 +245,7 @@ public class GivenBlackBox {
         customBear.noisemakers.add(new NoiseMaker());
         customBear.noisemakers.add(new NoiseMaker());
         customBear.noisemakers.add(new NoiseMaker());
-        Double bearsExpected = 13.0;
+        Double bearsExpected = 13.1;
         Double ans = bears.calculateSavings();
         assertEquals(bearsExpected, ans, 0.005);
     }
@@ -331,8 +260,7 @@ public class GivenBlackBox {
     @Test
     public void oneBaseBear10AccessorieAllClothingExpectSavings() {
     	System.out.println("Running - oneBaseBear10AccessorieAllClothingExpectSavings");
-        BearWorkshop bears = null;
-        try { bears = createBearWorkshop("AZ");} catch (Exception e){}
+		bears = new BearWorkshop();
         Bear customBear = new Bear(Stuffing.stuffing.BASE);
         bears.addBear(customBear);
 	    customBear.clothing.add(new Clothing(2, "1"));
@@ -349,7 +277,7 @@ public class GivenBlackBox {
 	    customBear.clothing.add(new Clothing(2, "12"));//FREE
 	    customBear.clothing.add(new Clothing(2, "13"));
 	    customBear.clothing.add(new Clothing(2, "14"));
-        Double bearsExpected = 13.0;
+        Double bearsExpected = 13.1;
         Double ans = bears.calculateSavings();
         assertEquals(bearsExpected, ans, 0.005);
     }
@@ -367,8 +295,7 @@ public class GivenBlackBox {
     @Test
     public void oneBaseBear10AccessorieExpectSavings() {
     	System.out.println("Running - oneBaseBear10AccessoriesExpectSavings");
-        BearWorkshop bears = null;
-        try { bears = createBearWorkshop("AZ");} catch (Exception e){}
+		bears = new BearWorkshop();
         Bear customBear = new Bear(Stuffing.stuffing.BASE);
         bears.addBear(customBear);
         customBear.addNoise(new NoiseMaker());
@@ -383,7 +310,7 @@ public class GivenBlackBox {
 	    customBear.clothing.add(new Clothing(2, "Pants"));
 	    customBear.clothing.add(new Clothing(2, "Gloves"));//FREE
 	    customBear.clothing.add(new Clothing(2, "Bandana"));
-        Double bearsExpected = 11.0;
+        Double bearsExpected = 11.1;
         Double ans = bears.calculateSavings();
         assertEquals(bearsExpected, ans, 0.005);
     }
@@ -397,15 +324,14 @@ public class GivenBlackBox {
     @Test
     public void threeBaseBearsExpectSavings() {
     	System.out.println("Running - threeBaseBearsExpectSavings");
-        BearWorkshop bears = null;
-        try { bears = createBearWorkshop("AZ");} catch (Exception e){}
+		bears = new BearWorkshop();
         Bear customBear1 = new Bear(Stuffing.stuffing.BASE);
         Bear customBear2 = new Bear(Stuffing.stuffing.BASE);
         Bear customBear3 = new Bear(Stuffing.stuffing.BASE);
         bears.addBear(customBear1);
         bears.addBear(customBear2);
         bears.addBear(customBear3);
-        Double bearsExpected = 30.0;
+        Double bearsExpected = 31.0;
         Double ans = bears.calculateSavings();
         assertEquals(bearsExpected, ans, 0.005);
     }
@@ -422,8 +348,15 @@ public class GivenBlackBox {
     @Test
     public void threeDifferentBearsSaveOnCheapest() {
     	System.out.println("Running - threeDifferentBearsSaveOnCheapest");
-        Double ans = threeBears.calculateSavings();
-        assertEquals(threeBearsExpected, ans);
+		bears = new BearWorkshop();
+    	Bear customBear1 = new Bear(Stuffing.stuffing.BASE);
+        Bear customBear2 = new Bear(Stuffing.stuffing.DOWN);
+        Bear customBear3 = new Bear(Stuffing.stuffing.FOAM);
+        bears.addBear(customBear1);
+        bears.addBear(customBear2);
+        bears.addBear(customBear3);
+    	Double ans = bears.calculateSavings();
+        assertEquals(Double.valueOf(31.0), ans);
     }
     
 //////////////////////////////////////  MULTIPLE BEARS CASES /////////////////////////////////////
@@ -436,13 +369,12 @@ public class GivenBlackBox {
     @Test
     public void thrityBaseBears() {
     	System.out.println("Running - thrityBaseBears");
-        BearWorkshop bears = null;
-        try { bears = createBearWorkshop("AZ");} catch (Exception e){}
+		bears = new BearWorkshop();
         for(int i = 0; i < 30; i++) {
             Bear customBear = new Bear(Stuffing.stuffing.BASE);
             bears.addBear(customBear);
         }
-        Double bearsExpected = 300.0;
+        Double bearsExpected = 310.0;
         Double ans = bears.calculateSavings();
         assertEquals(bearsExpected, ans);
     }

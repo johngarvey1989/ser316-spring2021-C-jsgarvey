@@ -1,3 +1,4 @@
+package test;
 import main.java.*;
 
 import static org.junit.Assert.*;
@@ -6,7 +7,6 @@ import org.junit.Before;
 
 import org.junit.Test;
 
-import main.java.BearWorkshop;
 
 
 public class GivenWhiteBox {
@@ -14,7 +14,9 @@ public class GivenWhiteBox {
 
     @Before
     public void setUp() throws Exception {
+    	oneBear = new BearWorkshop();
     }
+
 
 
     @Test

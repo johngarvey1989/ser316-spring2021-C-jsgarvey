@@ -10,6 +10,7 @@ public class Bear implements Comparable<Bear>{
     public LinkedList<NoiseMaker> noisemakers; // accessory
     public LinkedList<Clothing> clothing; // accessory
     double price;
+    double rawPrice;
     // bear has a shell (requ)
     // bear has stuffing (req)
     // bear has a tattoo/emroider or not (opt)
@@ -19,6 +20,7 @@ public class Bear implements Comparable<Bear>{
     public Bear() {
         this.casing = new Casing();
         this.stuff = new Stuffing(stuffing.BASE);
+        
         noisemakers = new LinkedList<>();
         clothing = new LinkedList<>();
         ink = new Embroidery("");

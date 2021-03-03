@@ -36,54 +36,65 @@ public class BearWorkshop implements BearWorkshopInterface{
     @Override
     public double getCost(Bear bear) {
         Collections.sort(bear.clothing);
-        int numFree = bear.clothing.size() / 3;
+        Collections.reverse(bear.clothing);
+        int numCloths = bear.clothing.size();
+        int numFree = numCloths / 3;
+        int numNonFreeCloths = numCloths - numFree;
         ArrayList<Clothing> freeClothes = new ArrayList<>();
+        
+        double bearPrice = 0;
 
         for (int i = 0; i < bear.clothing.size(); i++) {
             Clothing clothes = bear.clothing.get(i);
             if (i < numFree) {
                 freeClothes.add(clothes);
             } else {
-                bear.price += clothes.price;
+            	bearPrice += clothes.price;
             }
         }
+        
+        int accessCount = numNonFreeCloths;
 
         for (NoiseMaker noise: bear.noisemakers) {
-            bear.price += noise.price;
+        	accessCount ++;
+        	bearPrice += noise.price;
         }
 
         if (bear.ink != null) {
-            bear.price += bear.ink.price;
+        	bearPrice += bear.ink.price;
         }
 
-        bear.price += bear.stuff.price;
-        bear.price *= bear.casing.priceModifier;
-
-        return bear.price;
+        bearPrice += bear.stuff.price;
+        bearPrice += bear.casing.priceModifier;
+        
+        if(accessCount >= 10) { bearPrice = bearPrice - (bearPrice * 0.1); }
+        bear.price = bearPrice;
+        
+        return bearPrice;
     }
 
     // Function to get the raw cost of a bear without any discounts
    // TODO: test me and fix me in assignment 3
     public double getRawCost(Bear bear) {
+        double bearPrice = 0;
         for (int i = 0; i < bear.clothing.size(); i++) {
             Clothing clothes = bear.clothing.get(i);
-            bear.price += clothes.price;
+            bearPrice += clothes.price;
 
         }
 
         for (NoiseMaker noise: bear.noisemakers) {
-            bear.price += noise.price;
+        	bearPrice += noise.price;
         }
 
         if (bear.ink != null) {
-            bear.price += bear.ink.price;
+        	bearPrice += bear.ink.price;
         }
 
-        bear.price += bear.stuff.price;
-        bear.price *= bear.casing.priceModifier;
-
-        double bearPrice = bear.price;
-        bear.price = 0;
+        bearPrice += bear.stuff.price;
+        bearPrice += bear.casing.priceModifier;
+        bear.rawPrice = bearPrice;
+        
         return bearPrice;
     }
 
@@ -219,7 +230,28 @@ public class BearWorkshop implements BearWorkshopInterface{
      * @return the savings if the customer would check out as double
      */
     public double calculateSavings() {
-        System.out.println("TODO: Implement me in Assignment 3");
-        return 0.0;
+    	
+    	double totalSaved = 0;
+    	
+    	for(Bear bear : BearCart) {
+    		getRawCost(bear);
+    		getCost(bear);
+    	}
+    	
+    	Collections.sort(BearCart);
+    	int numBears = BearCart.size();
+    	int numFree = numBears / 3;
+    	int numNonFreeBears = numBears - numFree;
+    	
+        for (int i = 0; i < numBears; i++) {
+        	Bear bear = BearCart.get(i);
+            if (i < numFree) {
+                totalSaved += bear.price;
+            }else {
+            	totalSaved += bear.rawPrice - bear.price;
+            }
+        }   
+    	
+        return totalSaved;
     }
 }
