@@ -122,25 +122,26 @@ public class GivenWhiteBox {
     	
     }
 
-    /*
+
     @Test
     public void testAddBear() {
     	testShop = new BearWorkshop();
     	Bear bearOne = new Bear();
     	bearOne.clothing.add(new Clothing());
-    	testShop.addBear(bearOne);
     	boolean f = testShop.addBear(bearOne);
-    	assertTrue(!f);
+    	assertTrue(f);
     }
 
     @Test
     public void testRemoveBear() {
     	testShop = new BearWorkshop();
     	Bear bearOne = new Bear();
+    	testShop.addBear(bearOne);
     	bearOne.clothing.add(new Clothing());
-    	boolean f = testShop.removeBear(bearOne);
-    	assertTrue(!f);
-    }*/
+    	boolean f1 = testShop.removeBear(bearOne);
+    	boolean f2 = testShop.removeBear(bearOne);
+    	assertTrue(!f2);
+    }
     
     
     
